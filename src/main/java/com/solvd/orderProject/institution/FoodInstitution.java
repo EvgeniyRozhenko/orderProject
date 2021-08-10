@@ -1,31 +1,48 @@
 package com.solvd.orderProject.institution;
 
+import com.solvd.orderProject.logistic.Address;
 import com.solvd.orderProject.util.ZeroSizeException;
 import com.solvd.orderProject.food.Ingredient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Random;
-import java.util.Set;
+import java.util.*;
 
 public class FoodInstitution {
     private String name;
-    private String address;
+    private Address address;
     private TypeOfInstitution typeOfFoodInstitution;
     private String serviceQuality;
-    private boolean michelinAward;
 
     private static final Logger LOGGER = LogManager.getLogger(FoodInstitution.class);
 
-    public FoodInstitution(String name, String address, TypeOfInstitution typeOfFoodInstitution,
-                           String serviceQuality, boolean michelinAward) {
+    public FoodInstitution() {}
+
+    public FoodInstitution(String name, Address address, TypeOfInstitution typeOfFoodInstitution) {
         this.name = name;
         this.address = address;
         this.typeOfFoodInstitution = typeOfFoodInstitution;
-        this.serviceQuality = serviceQuality;
-        this.michelinAward = michelinAward;
+    }
+
+    public FoodInstitution(String name, Address address, String typeOfFoodInstitution) {
+        this.name = name;
+        this.address = address;
+        switch (typeOfFoodInstitution.toUpperCase().trim()) {
+            case "BBQ":
+                this.typeOfFoodInstitution = TypeOfInstitution.BBQ;
+                break;
+            case "SUSHI":
+                this.typeOfFoodInstitution = TypeOfInstitution.SUSHI;
+                break;
+            case "PIZZERIA":
+                this.typeOfFoodInstitution = TypeOfInstitution.PIZZERIA;
+                break;
+            default:
+                this.typeOfFoodInstitution = TypeOfInstitution.FAST_FOOD;
+                break;
+        }
+
+
     }
 
     public String getName() {
@@ -36,11 +53,11 @@ public class FoodInstitution {
         this.name = name;
     }
 
-    public String getAddress() {
+    public Address getAddress() {
         return address;
     }
 
-    public void setAddress(String address) {
+    public void setAddress(Address address) {
         this.address = address;
     }
 
@@ -60,26 +77,19 @@ public class FoodInstitution {
         this.serviceQuality = serviceQuality;
     }
 
-    public boolean getMichelinAward() {
-        return michelinAward;
-    }
-
-    public void setMichelinAward(boolean michelinAward) {
-        this.michelinAward = michelinAward;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof FoodInstitution)) return false;
         FoodInstitution that = (FoodInstitution) o;
-        return michelinAward == that.michelinAward && name.equals(that.name) && address.equals(that.address)
-                && typeOfFoodInstitution == that.typeOfFoodInstitution && serviceQuality.equals(that.serviceQuality);
+        return name.equals(that.name) && address.equals(that.address)
+                && typeOfFoodInstitution == that.typeOfFoodInstitution
+                && serviceQuality.equals(that.serviceQuality);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, typeOfFoodInstitution, serviceQuality, michelinAward);
+        return Objects.hash(name, address, typeOfFoodInstitution, serviceQuality);
     }
 
     @Override
@@ -88,22 +98,26 @@ public class FoodInstitution {
                 "name: " + '\"' + name.toUpperCase() + '\"' +
                 "; address: '" + address + '\'' +
                 "; typeOfFoodInstitution: " + typeOfFoodInstitution +
-                "; serviceQuality: " + serviceQuality +
-                "; michelinAward: " + michelinAward + " " +
-                '}';
+                "; serviceQuality: " + serviceQuality + " " +
+                '}' + '\n';
     }
 
-    public HashSet<Ingredient> buyIngredients(Set<String> listOfNeededProducts) {
-
-        if (listOfNeededProducts.size() == 0) throw new ZeroSizeException("Set parameter cannot have zero size.");
-
-        HashSet<Ingredient> purchasedIngredients = new HashSet<>(listOfNeededProducts.size());
-        Random random = new Random();
-        for (String product : listOfNeededProducts) {
-            purchasedIngredients.add(new Ingredient(product, random.nextFloat() + 1, random.nextInt(11)));
+    public static HashSet<FoodInstitution> createRestaurantSetByConsole(int restaurantsQuantity) {
+        Scanner sc = new Scanner(System.in);
+        HashSet<FoodInstitution> restaurants = new HashSet<>(restaurantsQuantity);
+        for (int i = 0; i < restaurantsQuantity; i++) {
+            LOGGER.info("Enter the name for the restaurant");
+            String restaurantName = sc.nextLine();
+            LOGGER.info("Enter the address");
+            String restaurantAddress = sc.nextLine();
+            LOGGER.info("Choose the type of restaurant: Sushi, Pizzeria, BBQ or Fast Food");
+            String restaurantType = sc.nextLine();
+            restaurants.add(new FoodInstitution());
         }
-        return purchasedIngredients;
+        return restaurants;
     }
+
+
 
     public Set<Ingredient> getIngredientsForPizza(String nameOfPizza, HashSet<Ingredient> purchasedIngredients) {
         Set<Ingredient> ingredientsForPizza = new HashSet<>();
@@ -142,4 +156,6 @@ public class FoodInstitution {
         }
         return weightCounter;
     }
+
+
 }

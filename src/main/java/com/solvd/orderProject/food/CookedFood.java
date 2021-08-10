@@ -18,10 +18,10 @@ public class CookedFood {
         this.maxTimeToDeliverByFoodCategory = maxTimeToDeliverByFoodCategory;
     }
 
-    public CookedFood(String name, Set<Ingredient> ingredients, FoodCategory maxTimeToDeliverByFoodCategory) {
+    public CookedFood(String name, Set<Ingredient> ingredients, double weight) {
         this.name = name;
         this.ingredients = ingredients;
-        this.maxTimeToDeliverByFoodCategory = maxTimeToDeliverByFoodCategory;
+        this.weight = weight;
     }
 
     public String getName() {
@@ -87,5 +87,9 @@ public class CookedFood {
     @Override
     public int hashCode() {
         return Objects.hash(name, ingredients, weight, size, maxTimeToDeliverByFoodCategory);
+    }
+
+    public static void buildMenu() {
+
     }
 }

@@ -1,26 +1,28 @@
 package com.solvd.orderProject.logistic;
 
+import com.solvd.orderProject.util.XYCoordinateFormatException;
+
 import java.util.Objects;
 
 public class Logistic implements ICalculatingDistance {
-    private String shippingAddress;
-    private String deliveringAddress;
+    private Address shippingAddress;
+    private Address deliveringAddress;
     private boolean isPayableService;
     private double distance;
 
-    public String getShippingAddress() {
+    public Address getShippingAddress() {
         return shippingAddress;
     }
 
-    public void setShippingAddress(String shippingAddress) {
+    public void setShippingAddress(Address shippingAddress) {
         this.shippingAddress = shippingAddress;
     }
 
-    public String getDeliveringAddress() {
+    public Address getDeliveringAddress() {
         return deliveringAddress;
     }
 
-    public void setDeliveringAddress(String deliveringAddress) {
+    public void setDeliveringAddress(Address deliveringAddress) {
         this.deliveringAddress = deliveringAddress;
     }
 
@@ -55,7 +57,8 @@ public class Logistic implements ICalculatingDistance {
         if (this == o) return true;
         if (!(o instanceof Logistic)) return false;
         Logistic logistic = (Logistic) o;
-        return isPayableService == logistic.isPayableService && Double.compare(logistic.distance, distance) == 0 && shippingAddress.equals(logistic.shippingAddress) && deliveringAddress.equals(logistic.deliveringAddress);
+        return isPayableService == logistic.isPayableService && Double.compare(logistic.distance, distance) == 0
+                && shippingAddress.equals(logistic.shippingAddress) && deliveringAddress.equals(logistic.deliveringAddress);
     }
 
     @Override
@@ -64,11 +67,17 @@ public class Logistic implements ICalculatingDistance {
     }
 
     @Override
-    public double countDistanceCost(double distanceValue, boolean isPayableService, double costPerKilometer) {
-        if (isPayableService) {
-            return distanceValue * costPerKilometer;
-        } else {
-            return 0;
+    public double countDistanceValue(double[] pointXY1, double[] pointXY2) {
+        if (pointXY1.length > 2 && pointXY2.length > 2) {
+            throw new XYCoordinateFormatException("Check format of XY coordinate");
         }
+        double sumPowPoint1 = Math.pow(pointXY1[0] - pointXY2[0], 2);
+        double sumPowPoint2 = Math.pow(pointXY1[1] - pointXY2[1], 2);
+        return Math.abs(Math.sqrt(sumPowPoint1 + sumPowPoint2));
+    }
+
+    @Override
+    public double countDistanceCost(boolean isPayableService, double distanceValue, double costPerKilometer) {
+        return isPayableService ? distanceValue * costPerKilometer : 0;
     }
 }

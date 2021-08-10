@@ -1,0 +1,4 @@
+and - 121
+SOLVD - 118
+health - 121
+text - 110

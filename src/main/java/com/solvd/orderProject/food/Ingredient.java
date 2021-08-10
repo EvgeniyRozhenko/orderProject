@@ -4,13 +4,13 @@ import java.util.Objects;
 
 public class Ingredient {
     private String name;
-    private float weight;
-    private int costPerIngredient;
+    private double weight;
+    private double costPerKG;
 
-    public Ingredient(String name, float weight, int costPerIngredient) {
+    public Ingredient(String name, double weight, double costPerKG) {
         this.name = name;
         this.weight = weight;
-        this.costPerIngredient = costPerIngredient;
+        this.costPerKG = costPerKG;
     }
 
     public String getName() {
@@ -21,20 +21,20 @@ public class Ingredient {
         this.name = name;
     }
 
-    public float getWeight() {
+    public double getWeight() {
         return weight;
     }
 
-    public void setWeight(float weight) {
+    public void setWeight(double weight) {
         this.weight = weight;
     }
 
-    public int getCostPerIngredient() {
-        return costPerIngredient;
+    public double getCostPerKG() {
+        return costPerKG;
     }
 
-    public void setCostPerIngredient(int costPerIngredient) {
-        this.costPerIngredient = costPerIngredient;
+    public void setCostPerKG(double costPerKG) {
+        this.costPerKG = costPerKG;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class Ingredient {
         return "Ingredient {" +
                 "name '" + name + '\'' +
                 ", weight " + weight +
-                ", costPerIngredient " + costPerIngredient +
+                ", costPerIngredient " + costPerKG +
                 '}';
     }
 
@@ -51,11 +51,16 @@ public class Ingredient {
         if (this == o) return true;
         if (!(o instanceof Ingredient)) return false;
         Ingredient that = (Ingredient) o;
-        return Float.compare(that.weight, weight) == 0 && costPerIngredient == that.costPerIngredient && name.equals(that.name);
+        return Double.compare(that.weight, weight) == 0
+                && Double.compare(that.costPerKG, costPerKG) == 0 && name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, weight, costPerIngredient);
+        return Objects.hash(name, weight, costPerKG);
+    }
+
+    public double calculateIngredientCost(double costPerKG, double ingredientWeight) {
+        return costPerKG / 1000 * ingredientWeight;
     }
 }

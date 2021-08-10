@@ -187,7 +187,7 @@ public class Order implements IPriceCalculating {
             throw new ZeroSizeException("Zero size of parameter.");
         double ingredientCostCounter = 0;
         for (Ingredient ingredient : ingredients) {
-            ingredientCostCounter += ingredient.getCostPerIngredient();
+            ingredientCostCounter += ingredient.getCostPerKG();
         }
         return ingredientCostCounter;
     }
