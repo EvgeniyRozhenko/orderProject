@@ -5,8 +5,13 @@
  */
 package com.solvd.orderProject;
 
+import com.solvd.orderProject.food.FoodRecipe;
 import com.solvd.orderProject.institution.FoodInstitution;
 import com.solvd.orderProject.institution.RestaurantService;
+import com.solvd.orderProject.personData.Client;
+import com.solvd.orderProject.personData.Courier;
+import com.solvd.orderProject.personData.CreditCard;
+import com.solvd.orderProject.personData.Operator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -16,57 +21,29 @@ public class Runner {
     private static final Logger LOGGER = LogManager.getLogger(Runner.class);
 
     public static void main(String[] args) {
-
         HashSet<FoodInstitution> restaurants = RestaurantService.chooseRestaurantsRandomly(RestaurantService.getRestaurants(), 3);
+        LOGGER.info("\n" + restaurants);
 
+        //people creation
+        Operator operator = new Operator("Julia", "Martishkina", 5461420);
+        operator.setMonthSalary(850);
+        operator.setAmountOfCustomerRequestPerHour(12);
+        operator.setPersonCreditCard(new CreditCard(367.98));
+        LOGGER.info(operator);
 
-//        FoodInstitution restaurant = new FoodInstitution("Rakovkij Brovar", "Minsk, Vitebskaya str., 10 bld.", TypeOfInstitution.PIZZERIA, "5 stars", true);
-//        LOGGER.info(restaurant);
-//
-//        //restaurant purchases
-//        Set<String> purchaseOfIngredients = new HashSet<>() {
-//            {
-//                add("salami");
-//                add("wheat flour");
-//                add("tomatoes");
-//                add("cheese");
-//                add("basil");
-//                add("mushrooms");
-//                add("eggs");
-//                add("peppers");
-//                add("olive oil");
-//                add("onions");
-//            }
-//        };
-//        HashSet<Ingredient> purchasedIngredients = restaurant.buyIngredients(purchaseOfIngredients);
-//
-//        List<Beverage> purchaseOfBeverage = new ArrayList<>() {
-//            {
-//                add(new Alcohol("Vodka", 1, "bitter", 12, 40));
-//                add(new Alcohol("Leffe beer", 0.5, "different kinds", 4, 4.6));
-//                add(new Juice("Sandora", 0.7, "multifruits", 1.2, new char[]{'C','E'}, "Light"));
-//                add(new Soda("Coca-cola", 0.33, "Cola", 0.7,"Strong"));
-//            }
-//        };
-//
-//        //people creation
-//        Operator operator = new Operator("Julia", "Martishkina", 5461420);
-//        operator.setMonthSalary(850);
-//        operator.setAmountOfCustomerRequestPerHour(12);
-//        operator.setPersonCreditCard(new CreditCard(367.98));
-//        LOGGER.info(operator);
-//
-//        Courier courier = new Courier("Karl", "Zigelberashulz", 9834582, 15, "Scooter");
-//        courier.setAmountOfMaxOrdersForOneTime(2);
-//        courier.setPersonCreditCard(new CreditCard(15_234.5));
-//        LOGGER.info(courier);
-//
-//        Client client = new Client("Alexey", "Puplikov", 9687908, "Minsk, Pinskaya str., 14 bld.");
-//        client.setDiscount(7);
-//        client.setPersonCreditCard(new CreditCard(24_560));
-//        LOGGER.info(client);
-//
-//        //order & cooking
+        Courier courier = new Courier("Karl", "Zigelberashulz", 9834582, 15, "Scooter");
+        courier.setAmountOfMaxOrdersForOneTime(2);
+        courier.setPersonCreditCard(new CreditCard(15_234.5));
+        LOGGER.info(courier);
+
+        Client client = new Client("Alexey", "Puplikov", 9687908, "Minsk, Pinskaya str., 14 bld.");
+        client.setDiscount(7);
+        client.setPersonCreditCard(new CreditCard(24_560));
+        LOGGER.info(client);
+
+        //order
+        client.makeAnOrder(restaurants);
+
 //        operator.toAnswerTheCall("Today we have special price for every second pizza! 50% discount!");
 //        client.toCallSomeone("I would like to order two pizzas. First is Margarita, second with salami. Plus one beer and one coke? please. My address is " + client.getAddress());
 //        operator.toAnswerTheCall("Your order is accepted. Delivering time is approximately ", 0.35);

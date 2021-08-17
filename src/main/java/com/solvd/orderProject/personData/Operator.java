@@ -1,12 +1,14 @@
 package com.solvd.orderProject.personData;
 
+import com.solvd.orderProject.institution.Menu;
 import com.solvd.orderProject.util.UncorrectArgumentException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class Operator extends Person {
+public class Operator extends Person implements IShow {
     private int amountOfCustomerRequestPerHour;
     private int monthSalary;
 
@@ -75,5 +77,10 @@ public class Operator extends Person {
         if (monthSalaryAmount < 0)
             throw new UncorrectArgumentException("Negative value of parameter.");
         card.setMoneyBalance(card.getMoneyBalance() + monthSalaryAmount);
+    }
+
+    @Override
+    public void showTheMenu(Menu menu) {
+        LOGGER.info("Food menu:" + "\n" + menu.getFoodMenu() + "\n" + "Beverage menu:" + "\n" + menu.getBeverageMenu());
     }
 }

@@ -1,8 +1,9 @@
 package com.solvd.orderProject.order;
 
 import com.solvd.orderProject.beverage.Beverage;
+import com.solvd.orderProject.food.FoodRecipe;
+import com.solvd.orderProject.institution.Menu;
 import com.solvd.orderProject.util.ZeroSizeException;
-import com.solvd.orderProject.food.CookedFood;
 import com.solvd.orderProject.food.Ingredient;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class Order implements IPriceCalculating {
     private int numberOfOrder;
     private String institutionName;
     private String clientName;
-    private List<CookedFood> foodOrder;
+    private List<FoodRecipe> foodOrder;
     private int totalQuantityOfOrderedFood;
     private List<Beverage> beverageOrder;
     private int getTotalQuantityOfOrderedBeverage;
@@ -24,7 +25,7 @@ public class Order implements IPriceCalculating {
 
     public Order() {}
 
-    public Order(int numberOfOrder, String institutionName, String clientName, List<CookedFood> foodOrder,
+    public Order(int numberOfOrder, String institutionName, String clientName, List<FoodRecipe> foodOrder,
                  int totalQuantityOfOrderedFood, List<Beverage> beverageOrder, int getTotalQuantityOfOrderedBeverage,
                  String operatorName, String courierName, double distance, double logisticCost, double totalOrderPayment) {
         if (foodOrder.size() == 0 || beverageOrder.size() == 0)
@@ -67,11 +68,11 @@ public class Order implements IPriceCalculating {
         this.clientName = clientName;
     }
 
-    public List<CookedFood> getFoodOrder() {
+    public List<FoodRecipe> getFoodOrder() {
         return foodOrder;
     }
 
-    public void setFoodOrder(List<CookedFood> foodOrder) {
+    public void setFoodOrder(List<FoodRecipe> foodOrder) {
         if (foodOrder.size() == 0)
             throw new ZeroSizeException("Zero size of parameter.");
         this.foodOrder = foodOrder;
@@ -179,28 +180,6 @@ public class Order implements IPriceCalculating {
         return Objects.hash(numberOfOrder, institutionName, clientName, foodOrder, totalQuantityOfOrderedFood,
                 beverageOrder, getTotalQuantityOfOrderedBeverage, operatorName, courierName, distance,
                 logisticCost, totalOrderPayment);
-    }
-
-    @Override
-    public double calculateTotalCostOfFood(List<Ingredient> ingredients) {
-        if (ingredients.size() == 0)
-            throw new ZeroSizeException("Zero size of parameter.");
-        double ingredientCostCounter = 0;
-        for (Ingredient ingredient : ingredients) {
-            ingredientCostCounter += ingredient.getCostPerKG();
-        }
-        return ingredientCostCounter;
-    }
-
-    @Override
-    public double calculateTotalCostOfBeverage(List<Beverage> beverageOrder) {
-        if (beverageOrder.size() == 0)
-            throw new ZeroSizeException("Zero size of parameter");
-        double beverageCostCounter = 0;
-        for (Beverage bottle : beverageOrder) {
-            beverageCostCounter += bottle.getCostPerBottle();
-        }
-        return beverageCostCounter;
     }
 
     @Override

@@ -6,11 +6,13 @@ public class Ingredient {
     private String name;
     private double weight;
     private double costPerKG;
+    private double costByWeight;
 
     public Ingredient(String name, double weight, double costPerKG) {
         this.name = name;
         this.weight = weight;
         this.costPerKG = costPerKG;
+        this.costByWeight = FoodService.calculateIngredientCost(this.costPerKG, this.weight);
     }
 
     public String getName() {
@@ -37,12 +39,21 @@ public class Ingredient {
         this.costPerKG = costPerKG;
     }
 
+    public double getCostByWeight() {
+        return costByWeight;
+    }
+
+    public void setCostByWeight(double costByWeight) {
+        this.costByWeight = costByWeight;
+    }
+
     @Override
     public String toString() {
         return "Ingredient {" +
                 "name '" + name + '\'' +
                 ", weight " + weight +
-                ", costPerIngredient " + costPerKG +
+                ", costPerKG " + costPerKG +
+                ", costByWeight " + costByWeight +
                 '}';
     }
 
@@ -51,16 +62,11 @@ public class Ingredient {
         if (this == o) return true;
         if (!(o instanceof Ingredient)) return false;
         Ingredient that = (Ingredient) o;
-        return Double.compare(that.weight, weight) == 0
-                && Double.compare(that.costPerKG, costPerKG) == 0 && name.equals(that.name);
+        return Double.compare(that.weight, weight) == 0 && Double.compare(that.costPerKG, costPerKG) == 0 && Double.compare(that.costByWeight, costByWeight) == 0 && name.equals(that.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, weight, costPerKG);
-    }
-
-    public double calculateIngredientCost(double costPerKG, double ingredientWeight) {
-        return costPerKG / 1000 * ingredientWeight;
+        return Objects.hash(name, weight, costPerKG, costByWeight);
     }
 }

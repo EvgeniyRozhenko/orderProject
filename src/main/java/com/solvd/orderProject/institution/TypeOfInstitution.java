@@ -1,13 +1,13 @@
 package com.solvd.orderProject.institution;
 
-import java.util.HashMap;
-
 public enum TypeOfInstitution {
-    SUSHI,
-    PIZZERIA,
-    BBQ,
-    FAST_FOOD;
+    PIZZERIA ("Pizzeria"),
+    BBQ ("BBQ"),
+    FAST_FOOD ("Fast food");
 
-    private HashMap<String, Double> menu;
+    private final String realName;
 
+    TypeOfInstitution(String realName) {
+        this.realName = realName;
+    }
 }

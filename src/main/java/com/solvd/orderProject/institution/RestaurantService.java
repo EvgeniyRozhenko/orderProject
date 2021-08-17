@@ -1,7 +1,5 @@
 package com.solvd.orderProject.institution;
 
-import com.solvd.orderProject.beverage.Beverage;
-import com.solvd.orderProject.food.CookedFood;
 import com.solvd.orderProject.food.Ingredient;
 import com.solvd.orderProject.logistic.Address;
 import com.solvd.orderProject.util.UncorrectArgumentException;
@@ -16,8 +14,8 @@ public class RestaurantService {
             add(new FoodInstitution("American BBQ", new Address("Minsk", "Volodko", "6/6", new double[]{53.881914, 27.561895}), TypeOfInstitution.BBQ));
             add(new FoodInstitution("McDonald's", new Address("Minsk", "Nemiga", "12-b", new double[]{53.902331, 27.548712}), TypeOfInstitution.FAST_FOOD));
             add(new FoodInstitution("McDonald's", new Address("Minsk", "Prospekt Dzerzhinskogo", "59", new double[]{53.874504, 27.496513}), TypeOfInstitution.FAST_FOOD));
-            add(new FoodInstitution("Sushi Chef Arts", new Address("Minsk", "Pobediteley str", "84", new double[]{53.937747, 27.488022}), TypeOfInstitution.SUSHI));
-            add(new FoodInstitution("Sushi Chef Arts", new Address("Minsk", "Slobodskaya", "27", new double[]{53.858473, 27.433077}), TypeOfInstitution.SUSHI));
+            add(new FoodInstitution("Dominos", new Address("Minsk", "Pobediteley str", "84", new double[]{53.937747, 27.488022}), TypeOfInstitution.PIZZERIA));
+            add(new FoodInstitution("BBQ Chef Arts", new Address("Minsk", "Slobodskaya", "27", new double[]{53.858473, 27.433077}), TypeOfInstitution.BBQ));
             add(new FoodInstitution("KFC", new Address("Minsk", "Babruyskaya", "19", new double[]{53.890623, 27.554792}), TypeOfInstitution.FAST_FOOD));
         }
     };
@@ -50,11 +48,6 @@ public class RestaurantService {
         }
 
         return chosenRestaurants;
-    }
-
-    //
-    public static void createMenu(HashSet<CookedFood> menuFoodItems, HashSet<Beverage> menuBeverageItems) {
-
     }
 
     public HashSet<Ingredient> buyIngredients(Set<String> listOfNeededProducts) {

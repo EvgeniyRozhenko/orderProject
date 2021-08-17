@@ -2,6 +2,7 @@ package com.solvd.orderProject.beverage;
 
 import com.solvd.orderProject.util.VolumeOfBottleException;
 
+import java.util.HashSet;
 import java.util.Objects;
 
 public abstract class Beverage implements IRefreshing {
@@ -58,10 +59,10 @@ public abstract class Beverage implements IRefreshing {
     @Override
     public String toString() {
         return "Beverage {" +
-                "name ='" + name + '\'' +
-                ", volumeOfBottle =" + volumeOfBottle +
-                ", taste ='" + taste + '\'' +
-                ", costPerLitre =" + costPerBottle +
+                "name '" + name + '\'' +
+                ", volumeOfBottle " + volumeOfBottle +
+                ", taste '" + taste + '\'' +
+                ", costPerLitre " + costPerBottle +
                 '}';
     }
 
@@ -79,4 +80,20 @@ public abstract class Beverage implements IRefreshing {
     }
 
     public abstract void relieveTension();
+
+    public static double countBeverageTotalCost(HashSet<Beverage> beverages) {
+        double totalCost = 0;
+        for (Beverage item : beverages) {
+            totalCost += item.costPerBottle;
+        }
+        return totalCost;
+    }
+
+    public static double countBeverageTotalVolume(HashSet<Beverage> beverages) {
+        double totalVolume = 0;
+        for (Beverage item : beverages) {
+            totalVolume += item.volumeOfBottle;
+        }
+        return totalVolume;
+    }
 }

@@ -12,6 +12,7 @@ public class FoodInstitution {
     private String name;
     private Address address;
     private TypeOfInstitution typeOfFoodInstitution;
+    private Menu menu;
     private String serviceQuality;
 
     private static final Logger LOGGER = LogManager.getLogger(FoodInstitution.class);
@@ -22,6 +23,7 @@ public class FoodInstitution {
         this.name = name;
         this.address = address;
         this.typeOfFoodInstitution = typeOfFoodInstitution;
+        this.menu = new Menu(this.typeOfFoodInstitution);
     }
 
     public FoodInstitution(String name, Address address, String typeOfFoodInstitution) {
@@ -31,9 +33,6 @@ public class FoodInstitution {
             case "BBQ":
                 this.typeOfFoodInstitution = TypeOfInstitution.BBQ;
                 break;
-            case "SUSHI":
-                this.typeOfFoodInstitution = TypeOfInstitution.SUSHI;
-                break;
             case "PIZZERIA":
                 this.typeOfFoodInstitution = TypeOfInstitution.PIZZERIA;
                 break;
@@ -41,8 +40,7 @@ public class FoodInstitution {
                 this.typeOfFoodInstitution = TypeOfInstitution.FAST_FOOD;
                 break;
         }
-
-
+        this.menu = new Menu(this.typeOfFoodInstitution);
     }
 
     public String getName() {
@@ -69,6 +67,14 @@ public class FoodInstitution {
         this.typeOfFoodInstitution = typeOfFoodInstitution;
     }
 
+    public Menu getMenu() {
+        return menu;
+    }
+
+    public void setMenu(Menu menu) {
+        this.menu = menu;
+    }
+
     public String getServiceQuality() {
         return serviceQuality;
     }
@@ -84,12 +90,12 @@ public class FoodInstitution {
         FoodInstitution that = (FoodInstitution) o;
         return name.equals(that.name) && address.equals(that.address)
                 && typeOfFoodInstitution == that.typeOfFoodInstitution
-                && serviceQuality.equals(that.serviceQuality);
+                && menu.equals(that.menu) && serviceQuality.equals(that.serviceQuality);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name, address, typeOfFoodInstitution, serviceQuality);
+        return Objects.hash(name, address, typeOfFoodInstitution, menu, serviceQuality);
     }
 
     @Override
@@ -98,6 +104,7 @@ public class FoodInstitution {
                 "name: " + '\"' + name.toUpperCase() + '\"' +
                 "; address: '" + address + '\'' +
                 "; typeOfFoodInstitution: " + typeOfFoodInstitution +
+                "; menu " + menu +
                 "; serviceQuality: " + serviceQuality + " " +
                 '}' + '\n';
     }
@@ -110,14 +117,12 @@ public class FoodInstitution {
             String restaurantName = sc.nextLine();
             LOGGER.info("Enter the address");
             String restaurantAddress = sc.nextLine();
-            LOGGER.info("Choose the type of restaurant: Sushi, Pizzeria, BBQ or Fast Food");
+            LOGGER.info("Choose the type of restaurant: Pizzeria, BBQ or Fast Food");
             String restaurantType = sc.nextLine();
             restaurants.add(new FoodInstitution());
         }
         return restaurants;
     }
-
-
 
     public Set<Ingredient> getIngredientsForPizza(String nameOfPizza, HashSet<Ingredient> purchasedIngredients) {
         Set<Ingredient> ingredientsForPizza = new HashSet<>();
