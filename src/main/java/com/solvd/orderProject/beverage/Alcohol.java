@@ -11,8 +11,8 @@ public class Alcohol extends Beverage {
 
     private static final Logger LOGGER = LogManager.getLogger(Alcohol.class);
 
-    public Alcohol(String name, double volumeOfBottle, String taste, double costPerBottle, double alcoPercentOfValume) {
-        super(name, volumeOfBottle, taste, costPerBottle);
+    public Alcohol(Integer id, String name, double volumeOfBottle, String taste, double costPerBottle, double alcoPercentOfValume) {
+        super(id, name, volumeOfBottle, taste, costPerBottle);
             if (alcoPercentOfValume > 40) throw new AlcoholVolumeException("Volume of alcohol cannot be more then 40%");
             this.alcoPercentOfValume = alcoPercentOfValume;
     }
@@ -28,9 +28,9 @@ public class Alcohol extends Beverage {
 
     @Override
     public String toString() {
-        return "Alcohol {" +
-                "alcoPercentOfValume " + alcoPercentOfValume +
-                "} " + super.toString();
+        return super.toString().replace("Beverage", "Alcohol")
+                .replace("};", ",") +
+                "alc. " + alcoPercentOfValume + "}";
     }
 
     @Override
@@ -39,7 +39,7 @@ public class Alcohol extends Beverage {
         if (!(o instanceof Alcohol)) return false;
         if (!super.equals(o)) return false;
         Alcohol alcohol = (Alcohol) o;
-        return alcoPercentOfValume == alcohol.alcoPercentOfValume;
+        return Double.compare(alcohol.alcoPercentOfValume, alcoPercentOfValume) == 0;
     }
 
     @Override

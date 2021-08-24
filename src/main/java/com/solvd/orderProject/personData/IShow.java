@@ -1,8 +1,11 @@
 package com.solvd.orderProject.personData;
 
-import com.solvd.orderProject.institution.Menu;
+import com.solvd.orderProject.institution.FoodInstitution;
 
-public interface IShow<T> {
+import java.util.List;
 
-    void showTheMenu(Menu menu);
+public interface IShow {
+    Integer makeRestaurantSelection(Client client);
+    List<Integer> makeBeverageSelection(FoodInstitution selectedRestaurant);
+    List<Integer> makeFoodRecipeSelection(FoodInstitution selectedRestaurant);
 }

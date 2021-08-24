@@ -59,22 +59,15 @@ public class Client extends Person {
     }
 
     @Override
-    public void toCallSomeone(String message) {
-        LOGGER.info("I'm hungry! Calling to make an order...");
-        LOGGER.info(message);
-    }
-
-    @Override
-    public void toAnswerTheCall(String message) {
-        LOGGER.info("I hope so it's about my order!");
-        LOGGER.info(message);
-    }
-
-    @Override
     public void useCreditCard(CreditCard card, double amountOfPaying) {
         if (amountOfPaying > card.getMoneyBalance())
             throw new NegativeBalanceResultException("Not enough funds on the balance.");
         card.setMoneyBalance(card.getMoneyBalance() - amountOfPaying);
+    }
+
+    public void selectTypeOfFood(Set<FoodInstitution> restaurants) {
+        Random random = new Random();
+
     }
 
     public void makeAnOrder(HashSet<FoodInstitution> restaurants) {
@@ -82,7 +75,6 @@ public class Client extends Person {
         int num = 1;
         LOGGER.info("Choose a restaurant and insert the number");
 
-//        restaurants.forEach( institution ->  LOGGER.info(num + "): " + institution);
         for (FoodInstitution institution : restaurants) {
             LOGGER.info(num + "): " + institution);
             num++;

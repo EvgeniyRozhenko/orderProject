@@ -69,17 +69,6 @@ public class Courier extends Person {
     }
 
     @Override
-    public void toCallSomeone(String message) {
-        LOGGER.info(message);
-    }
-
-    @Override
-    public void toAnswerTheCall(String message) {
-        LOGGER.info("Who is annoying me?!");
-        LOGGER.info(message);
-    }
-
-    @Override
     public void useCreditCard(CreditCard card, double amountOfTotalOrderCost) {
         double percentageOfAmount = amountOfTotalOrderCost / 100 * this.getSalaryPercent();
         card.setMoneyBalance(card.getMoneyBalance() + percentageOfAmount);

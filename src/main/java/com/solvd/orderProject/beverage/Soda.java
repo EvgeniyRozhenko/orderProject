@@ -10,8 +10,8 @@ public class Soda extends Beverage {
 
     private static final Logger LOGGER = LogManager.getLogger(Soda.class);
 
-    public Soda(String name, double volumeOfBottle, String taste, double costPerBottle, String sparklingLevel) {
-        super(name, volumeOfBottle, taste, costPerBottle);
+    public Soda(Integer id, String name, double volumeOfBottle, String taste, double costPerBottle, String sparklingLevel) {
+        super(id, name, volumeOfBottle, taste, costPerBottle);
         this.sparklingLevel = sparklingLevel;
     }
 
@@ -25,9 +25,9 @@ public class Soda extends Beverage {
 
     @Override
     public String toString() {
-        return "Soda {" +
-                "sparklingLevel '" + sparklingLevel + '\'' +
-                "} " + super.toString();
+        return super.toString().replace("Beverage", "Soda")
+                .replace("};", ",") +
+                "sparklingLevel '" + sparklingLevel + "' }";
     }
 
     @Override

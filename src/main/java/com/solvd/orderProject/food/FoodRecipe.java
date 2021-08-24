@@ -1,9 +1,11 @@
 package com.solvd.orderProject.food;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.solvd.orderProject.displayInfo.DisplayInformation;
 
-public enum FoodRecipe {
+import java.util.HashMap;
+import java.util.List;
+
+public enum FoodRecipe implements DisplayInformation {
     MARGARITA (
             "Pizza Margarita",
             new HashMap<>(){
@@ -125,6 +127,8 @@ public enum FoodRecipe {
         return name;
     }
 
+
+
     public HashMap<String, Ingredient> getNeededIngredients() {
         return neededIngredients;
     }
@@ -141,4 +145,8 @@ public enum FoodRecipe {
         this.totalCookedCost = totalCookedCost;
     }
 
+    @Override
+    public String showItemInformation() {
+        return (this.ordinal() + 1) + "." + this.name;
+    }
 }

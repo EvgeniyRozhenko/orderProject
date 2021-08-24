@@ -2,10 +2,10 @@ package com.solvd.orderProject.order;
 
 import com.solvd.orderProject.beverage.Beverage;
 import com.solvd.orderProject.food.FoodRecipe;
-import com.solvd.orderProject.institution.Menu;
 import com.solvd.orderProject.util.ZeroSizeException;
-import com.solvd.orderProject.food.Ingredient;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,14 +20,14 @@ public class Order implements IPriceCalculating {
     private String operatorName;
     private String courierName;
     private double distance;
-    private double logisticCost;
+    private double logisticCost = 10;
     private double totalOrderPayment;
 
     public Order() {}
 
     public Order(int numberOfOrder, String institutionName, String clientName, List<FoodRecipe> foodOrder,
                  int totalQuantityOfOrderedFood, List<Beverage> beverageOrder, int getTotalQuantityOfOrderedBeverage,
-                 String operatorName, String courierName, double distance, double logisticCost, double totalOrderPayment) {
+                 String operatorName, String courierName, double distance) {
         if (foodOrder.size() == 0 || beverageOrder.size() == 0)
             throw new ZeroSizeException("Zero size of collection parameter.");
         this.numberOfOrder = numberOfOrder;
@@ -40,8 +40,7 @@ public class Order implements IPriceCalculating {
         this.operatorName = operatorName;
         this.courierName = courierName;
         this.distance = distance;
-        this.logisticCost = logisticCost;
-        this.totalOrderPayment = totalOrderPayment;
+        this.totalOrderPayment = calculateTotalCostOfWholeOrder();
     }
 
     public int getNumberOfOrder() {
@@ -146,20 +145,17 @@ public class Order implements IPriceCalculating {
 
     @Override
     public String toString() {
-        return "__Order__" + '\n' +
-                "{ numberOfOrder: " + numberOfOrder + '\n' +
-                " institutionData: " + institutionName + '\n' +
-                " clientData: " + clientName + '\n' +
-                " foodOrder: " + foodOrder + '\n' +
-                " totalQuantityOfOrderedFood: " + totalQuantityOfOrderedFood + '\n' +
-                " beverageOrder: " + beverageOrder + '\n' +
-                " getTotalQuantityOfOrderedBeverage: " + getTotalQuantityOfOrderedBeverage + '\n' +
-                " operatorData: " + operatorName + '\n' +
-                " courierData: " + courierName + '\n' +
-                " distance: " + distance + '\n' +
-                " logisticCost: " + logisticCost + '\n' +
-                " totalOrderPayment: " + totalOrderPayment +
-                '}';
+        return "Order: " + '\n' +
+                " number of order: " + numberOfOrder + '\n' +
+                " institution name: " + institutionName + '\n' +
+                " client name: " + clientName + '\n' +
+                " foods: " + foodRecipesToString() + '\n' +
+                " total quantity of ordered food: " + totalQuantityOfOrderedFood + '\n' +
+                " beverages: " + beveragesToString() + '\n' +
+                " total quantity of ordered beverage: " + getTotalQuantityOfOrderedBeverage + '\n' +
+                " operator name: " + operatorName + '\n' +
+                " courier name: " + courierName + '\n' +
+                " total order payment: " + totalOrderPayment;
     }
 
     @Override
@@ -183,7 +179,22 @@ public class Order implements IPriceCalculating {
     }
 
     @Override
-    public double calculateTotalCostOfWholeOrder(double totalCostOfFood, double totalCostOfBeverage, double logisticCost) {
-        return totalCostOfFood + totalCostOfBeverage +  logisticCost;
+    public double calculateTotalCostOfWholeOrder() {
+        double totalCostOfFood = foodOrder.stream().map(FoodRecipe::getTotalCookedCost).reduce(0D, Double::sum);
+        double totalCostOfBeverage = Beverage.countBeverageTotalCost(beverageOrder);
+        double totalCost = totalCostOfFood + totalCostOfBeverage;
+        totalCost = totalCostOfFood + totalCostOfBeverage < 50 ? totalCost + logisticCost : totalCost;
+        BigDecimal totalCostRounded = new BigDecimal(totalCost);
+        totalCostRounded = totalCostRounded.setScale(2, RoundingMode.UP);
+
+        return totalCostRounded.doubleValue();
+    }
+
+    private String foodRecipesToString() {
+        return foodOrder.stream().map(FoodRecipe::getName).reduce("", (a, b) -> a + ", " + b).substring(2);
+    }
+
+    private String beveragesToString() {
+        return beverageOrder.stream().map(Beverage::getName).reduce("", (a, b) -> a + ", " + b).substring(2);
     }
 }

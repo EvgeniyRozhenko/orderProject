@@ -13,8 +13,8 @@ public class Juice extends Beverage {
 
     private static final Logger LOGGER = LogManager.getLogger(Juice.class);
 
-    public Juice(String name, double volumeOfBottle, String taste, double costPerBottle, char[] vitamin, String pulpLevel) {
-        super(name, volumeOfBottle, taste, costPerBottle);
+    public Juice(Integer id, String name, double volumeOfBottle, String taste, double costPerBottle, char[] vitamin, String pulpLevel) {
+        super(id, name, volumeOfBottle, taste, costPerBottle);
         if (vitamin.length == 0)
             throw new ZeroSizeException("Zero length of char array parameter.");
         this.vitamin = vitamin;
@@ -41,10 +41,10 @@ public class Juice extends Beverage {
 
     @Override
     public String toString() {
-        return "Juice {" +
-                "vitamin " + Arrays.toString(vitamin) +
-                ", pulpLevel '" + pulpLevel + '\'' +
-                "} " + super.toString();
+        return super.toString().replace("Beverage", "Juice")
+                .replace("};", ",")
+                + "vitamin " + Arrays.toString(vitamin)
+                + ", pulpLevel '" + pulpLevel + "' }";
     }
 
     @Override

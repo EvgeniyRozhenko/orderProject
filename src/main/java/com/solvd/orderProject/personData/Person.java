@@ -2,7 +2,7 @@ package com.solvd.orderProject.personData;
 
 import java.util.Objects;
 
-public abstract class Person implements ICalling, ICreditCardUsing {
+public abstract class Person implements ICreditCardUsing {
     private String name;
     private String surname;
     private int telephoneNumber;
